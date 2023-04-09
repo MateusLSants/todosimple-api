@@ -1,5 +1,6 @@
 package br.com.dev.todosimple.todosimple.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -17,7 +18,6 @@ import java.util.Objects;
 @Table(name = User.TABLE_NAME)
 public class User extends AbstractEntity {
     public static final String TABLE_NAME = "user";
-
     @Column(name = "name", length = 100, nullable = false, unique = false)
     @NotNull
     @NotEmpty
@@ -52,7 +52,7 @@ public class User extends AbstractEntity {
     public void setPassword(String password) {
         this.password = password;
     }
-
+    @JsonIgnore
     public List<Task> getTasks() {
         return tasks;
     }
