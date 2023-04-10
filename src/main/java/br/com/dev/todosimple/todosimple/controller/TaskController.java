@@ -20,7 +20,7 @@ public class TaskController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Task> findById(@PathVariable Long id) {
-        Task task = taskService.findById(id);
+        Task task = this.taskService.findById(id);
         return ResponseEntity.ok(task);
     }
 
