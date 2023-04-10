@@ -32,11 +32,6 @@ public class User extends AbstractEntity {
     @OneToMany(mappedBy = "user")
     private List<Task> tasks = new ArrayList<Task>();
 
-    public User(String name, String password) {
-        this.name = name;
-        this.password = password;
-    }
-
     public String getName() {
         return name;
     }

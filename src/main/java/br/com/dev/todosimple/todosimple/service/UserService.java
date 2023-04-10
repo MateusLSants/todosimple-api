@@ -24,7 +24,6 @@ public class UserService {
 
     @Transactional
     public User save(User user) {
-        user.setId(null);
         user = this.userRepository.save(user);
         this.taskRepository.saveAll(user.getTasks());
         return user;
@@ -33,8 +32,9 @@ public class UserService {
     @Transactional
     public User update(User user) {
         User newUser = findById(user.getId());
-        user.setPassword(user.getPassword());
-        return this.userRepository.save(newUser);
+        newUser.setName(user.getName());
+        newUser.setPassword(user.getPassword());
+        return userRepository.save(newUser);
     }
 
     public void delete(Long id) {

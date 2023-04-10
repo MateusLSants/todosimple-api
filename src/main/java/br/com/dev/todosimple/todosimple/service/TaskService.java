@@ -26,7 +26,6 @@ public class TaskService {
     @Transactional
     public Task save(Task task) {
         User user = this.userService.findById(task.getUser().getId());
-        task.setId(null);
         task.setUser(user);
         task = this.taskRepository.save(task);
         return task;

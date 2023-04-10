@@ -11,7 +11,6 @@ import java.util.Objects;
 @Table(name = Task.TABLE_NAME)
 public class Task extends AbstractEntity {
     public static final String TABLE_NAME = "task";
-
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false, updatable = false)
     private User user;
@@ -20,11 +19,6 @@ public class Task extends AbstractEntity {
     @NotEmpty
     @Size(min = 1, max = 255)
     private String description;
-
-    public Task(User user, String description) {
-        this.user = user;
-        this.description = description;
-    }
 
     public User getUser() {
         return user;
