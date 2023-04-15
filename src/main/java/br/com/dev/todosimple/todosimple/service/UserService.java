@@ -4,6 +4,7 @@ import br.com.dev.todosimple.todosimple.model.User;
 import br.com.dev.todosimple.todosimple.repository.TaskRepository;
 import br.com.dev.todosimple.todosimple.repository.UserRepository;
 
+import br.com.dev.todosimple.todosimple.service.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,7 +18,7 @@ public class UserService {
 
     public User findById(Long id) {
         return userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException(
+                .orElseThrow(() -> new ObjectNotFoundException(
                         "User not found! ID:" + id + ", Type:" + User.class.getName()
                 ));
     }

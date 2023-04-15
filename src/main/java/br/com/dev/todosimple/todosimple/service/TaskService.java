@@ -3,6 +3,8 @@ package br.com.dev.todosimple.todosimple.service;
 import br.com.dev.todosimple.todosimple.model.Task;
 import br.com.dev.todosimple.todosimple.model.User;
 import br.com.dev.todosimple.todosimple.repository.TaskRepository;
+import br.com.dev.todosimple.todosimple.service.exceptions.DataBidingViolationException;
+import br.com.dev.todosimple.todosimple.service.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,7 +25,7 @@ public class TaskService {
 
     public Task findById(long id) {
         Optional<Task> task = this.taskRepository.findById(id);
-        return task.orElseThrow(() -> new RuntimeException(
+        return task.orElseThrow(() -> new ObjectNotFoundException(
                 "Task not found! ID: " + id + ", Type: " + Task.class.getName()
         ));
     }
@@ -48,7 +50,7 @@ public class TaskService {
         try {
             this.taskRepository.deleteById(id);
         } catch (Exception e) {
-            throw new RuntimeException("Cannot delete the entity in application");
+            throw new DataBidingViolationException("Cannot delete the entity in application");
         }
     }
 
