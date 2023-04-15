@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -15,6 +16,10 @@ public class TaskService {
     private TaskRepository taskRepository;
     @Autowired
     private UserService userService;
+
+    public List<Task> findAllTask() {
+        return taskRepository.findAll();
+    }
 
     public Task findById(long id) {
         Optional<Task> task = this.taskRepository.findById(id);
@@ -45,5 +50,10 @@ public class TaskService {
         } catch (Exception e) {
             throw new RuntimeException("Cannot delete the entity in application");
         }
+    }
+
+    public  List<Task> findByUser(Long userId) {
+        List<Task> tasks = this.taskRepository.findByUser_id(userId);
+        return tasks;
     }
 }

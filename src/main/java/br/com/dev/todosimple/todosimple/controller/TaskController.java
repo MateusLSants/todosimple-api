@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping("/task")
@@ -17,6 +18,17 @@ import java.net.URI;
 public class TaskController {
     @Autowired
     TaskService taskService;
+
+    @GetMapping
+    public ResponseEntity<List<Task>> findAll() {
+        return ResponseEntity.ok(taskService.findAllTask());
+    }
+
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<Task>> findByUserId(@PathVariable Long userId) {
+        List<Task> tasks = this.taskService.findByUser(userId);
+        return ResponseEntity.ok().body(tasks);
+    }
 
     @GetMapping("/{id}")
     public ResponseEntity<Task> findById(@PathVariable Long id) {
