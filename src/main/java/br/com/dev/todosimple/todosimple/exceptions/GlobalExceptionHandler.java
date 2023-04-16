@@ -48,7 +48,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<Object> handlerAllUncaughtException(
             Exception ex,
             WebRequest request) {
-        final String errorMessage = "Uknown error ocurred";
+        final String errorMessage = "Unknown error occurred";
         log.error(errorMessage, ex);
         return buildErrorResponse (
                 ex,
