@@ -1,20 +1,26 @@
 package br.com.dev.todosimple.todosimple.service;
 
 import br.com.dev.todosimple.todosimple.model.User;
+import br.com.dev.todosimple.todosimple.model.enums.ProfilesEnum;
 import br.com.dev.todosimple.todosimple.repository.TaskRepository;
 import br.com.dev.todosimple.todosimple.repository.UserRepository;
 
 import br.com.dev.todosimple.todosimple.service.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 public class UserService {
     @Autowired
     private UserRepository userRepository;
+
     @Autowired
-    private TaskRepository taskRepository;
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     public User findById(Long id) {
         return userRepository.findById(id)
@@ -26,7 +32,8 @@ public class UserService {
     @Transactional
     public User save(User user) {
         user = this.userRepository.save(user);
-        this.taskRepository.saveAll(user.getTasks());
+        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        user.setProfiles(Stream.of(ProfilesEnum.USER.getCode()).collect(Collectors.toSet()));
         return user;
     }
 
@@ -35,6 +42,7 @@ public class UserService {
         User newUser = findById(user.getId());
         newUser.setName(user.getName());
         newUser.setPassword(user.getPassword());
+        newUser.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         return userRepository.save(newUser);
     }
 
