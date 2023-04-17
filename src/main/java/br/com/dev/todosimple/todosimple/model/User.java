@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 public class User extends AbstractEntity {
     public static final String TABLE_NAME = "user";
 
-    @Column(name = "name", length = 100, nullable = false, unique = false)
+    @Column(name = "name", length = 100, nullable = false, unique = true)
     @NotNull
     @NotEmpty
     @Size(min = 2, max = 100)

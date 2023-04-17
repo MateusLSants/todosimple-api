@@ -1,5 +1,6 @@
 package br.com.dev.todosimple.todosimple.config;
 
+import br.com.dev.todosimple.todosimple.Security.JWTAuthenticationFilter;
 import br.com.dev.todosimple.todosimple.Security.JWTUtil;
 import br.com.dev.todosimple.todosimple.service.UserDetailsServicesImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +26,6 @@ import java.util.Arrays;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig {
 
-    @Autowired
     private AuthenticationManager authenticationManager;
 
     @Autowired
@@ -56,7 +56,11 @@ public class SecurityConfig {
         http.authorizeRequests()
                         .requestMatchers(HttpMethod.POST, PUBLIC_MATCHERS_POST).permitAll()
                         .requestMatchers(PUBLIC_MATCHERS).permitAll()
-                        .anyRequest().authenticated();
+                        .anyRequest().authenticated().and()
+                        .authenticationManager(authenticationManager);
+
+        http.addFilter(new JWTAuthenticationFilter(this.authenticationManager, jwtUtil));
+
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         return http.build();
     }
